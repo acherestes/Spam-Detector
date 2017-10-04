@@ -1,0 +1,13 @@
+import numpy as np
+from sklearn.naive_bayes import GaussianNB
+
+data = np.array([[0,0], [1,1], [2,4], [-1,-2], [0,2], [3,3]])
+label = np.array([1, 0, 0, 1, 0, 1])
+
+G = GaussianNB()
+G.fit(data,label)
+
+print(G.predict([[0.8,1]]))
+
+
+
