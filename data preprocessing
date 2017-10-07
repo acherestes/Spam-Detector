@@ -1,5 +1,6 @@
 import os
 import glob
+import numpy as np
 
 path_ham = 'Data/enron1/ham'
 path_spam = 'Data/enron1/spam'
@@ -20,9 +21,15 @@ for filename in glob.glob(os.path.join(path_ham, '*.txt')):
 #print(ham_count)
 
 new_ham = ham_count.copy()
+total_ham = 0
 for key in new_ham:
     if new_ham[key] < 5:
         ham_count.pop(key)
+    else:
+        total_ham += ham_count[key]
+
+for key in ham_count:
+    ham_count[key] = -np.log(ham_count[key] / total_ham)
 
 for filename in glob.glob(os.path.join(path_spam, '*.txt')):
     f = open(filename, 'r')
@@ -36,9 +43,14 @@ for filename in glob.glob(os.path.join(path_spam, '*.txt')):
 #print(spam_count)
 
 new_spam = spam_count.copy()
+total_spam = 0
 for key in new_spam:
     if new_spam[key] < 5:
         spam_count.pop(key)
+    else:
+        total_spam += spam_count[key]
+for key in spam_count:
+    spam_count[key] = -np.log(ham_count[key] / total_spam)
 
 
 
