@@ -4,15 +4,41 @@ import glob
 path_ham = 'Data/enron1/ham'
 path_spam = 'Data/enron1/spam'
 
-word_count = dict()
+ham_count = dict()
+spam_count = dict()
 
 for filename in glob.glob(os.path.join(path_ham, '*.txt')):
     f = open(filename, 'r')
     content = f.read().replace('\n', '')
     #print(content)
     for word in content.split():
-        if word not in word_count:
-            word_count[word] = 1
+        if word not in ham_count:
+            ham_count[word] = 1
         else:
-            word_count[word] += 1
-print(word_count)
+            ham_count[word] += 1
+#print(ham_count)
+
+new_ham = ham_count.copy()
+for key in new_ham:
+    if new_ham[key] < 5:
+        ham_count.pop(key)
+
+for filename in glob.glob(os.path.join(path_spam, '*.txt')):
+    f = open(filename, 'r')
+    content = f.read().replace('\n', '')
+    for word in content.split():
+        if word not in spam_count:
+            spam_count[word] = 1
+        else:
+            spam_count[word] += 1
+#print(spam_count)
+
+new_spam = spam_count.copy()
+for key in new_spam:
+    if new_spam[key] < 5:
+        spam_count.pop(key)
+
+
+
+
+
