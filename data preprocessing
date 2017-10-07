@@ -2,6 +2,7 @@ import os
 import glob
 import numpy as np
 
+
 path_ham = 'Data/enron1/ham'
 path_spam = 'Data/enron1/spam'
 
@@ -27,9 +28,12 @@ for key in new_ham:
         ham_count.pop(key)
     else:
         total_ham += ham_count[key]
+print(total_ham)
 
 for key in ham_count:
-    ham_count[key] = -np.log(ham_count[key] / total_ham)
+    val = ham_count[key] / total_ham
+    if val > 0.000000001:
+        ham_count[key] = np.log(val)
 
 for filename in glob.glob(os.path.join(path_spam, '*.txt')):
     f = open(filename, 'r')
@@ -49,8 +53,64 @@ for key in new_spam:
         spam_count.pop(key)
     else:
         total_spam += spam_count[key]
+
 for key in spam_count:
-    spam_count[key] = -np.log(ham_count[key] / total_spam)
+    val = spam_count[key] / total_spam
+    if val > 0.000000001:
+        spam_count[key] = np.log(val)
+
+test_ham = 'Data/enron2/ham'
+test_spam = 'Data/enron2/spam'
+
+misclassified = 0
+correct = 0
+t = 0
+for filename in glob.glob(os.path.join(test_ham, '*.txt')):
+    t += 1
+    f = open(filename, 'r')
+    content = f.read().replace('\n', '')
+    ham_score = 0
+    spam_score = 0
+    for word in content.split():
+        word = word.lower()
+        if word in ham_count.keys():
+            ham_score += ham_count[word]
+        if word in spam_count.keys():
+            spam_score += spam_count[word]
+    if ham_score < spam_score:
+        misclassified += 1
+    else:
+        correct += 1
+    print(t, correct, misclassified, ham_score, spam_score)
+    if t > 200:
+        break
+
+
+misclassified = 0
+correct = 0
+t = 0
+for filename in glob.glob(os.path.join(test_spam, '*.txt')):
+    t += 1
+    f = open(filename, 'r')
+    content = f.read().replace('\n', '')
+    ham_score = 0
+    spam_score = 0
+    for word in content.split():
+        word = word.lower()
+        if word in ham_count.keys():
+            ham_score += ham_count[word]
+        if word in spam_count.keys():
+            spam_score += spam_count[word]
+    if ham_score < spam_score:
+        misclassified += 1
+    else:
+        correct += 1
+    print(t, correct, misclassified, ham_score, spam_score)
+    if t > 200:
+        break
+
+accuracy = correct / (misclassified + correct)
+print(accuracy)
 
 
 
