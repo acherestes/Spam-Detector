@@ -12,6 +12,7 @@ for filename in glob.glob(os.path.join(path_ham, '*.txt')):
     content = f.read().replace('\n', '')
     #print(content)
     for word in content.split():
+        word = word.lower()
         if word not in ham_count:
             ham_count[word] = 1
         else:
@@ -27,6 +28,7 @@ for filename in glob.glob(os.path.join(path_spam, '*.txt')):
     f = open(filename, 'r')
     content = f.read().replace('\n', '')
     for word in content.split():
+        word = word.lower()
         if word not in spam_count:
             spam_count[word] = 1
         else:
@@ -37,7 +39,6 @@ new_spam = spam_count.copy()
 for key in new_spam:
     if new_spam[key] < 5:
         spam_count.pop(key)
-
 
 
 
