@@ -1,0 +1,18 @@
+import os
+import glob
+
+path_ham = 'Data/enron1/ham'
+path_spam = 'Data/enron1/spam'
+
+word_count = dict()
+
+for filename in glob.glob(os.path.join(path_ham, '*.txt')):
+    f = open(filename, 'r')
+    content = f.read().replace('\n', '')
+    #print(content)
+    for word in content.split():
+        if word not in word_count:
+            word_count[word] = 1
+        else:
+            word_count[word] += 1
+print(word_count)
