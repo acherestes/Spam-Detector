@@ -7,10 +7,12 @@ import numpy as np
 # Opens mails in path folder and returns them as a string
 
 def get_mails(path):
+    content = ''
     for filename in glob.glob(os.path.join(path, '*.txt')):
         f = open(filename, 'r')
-        content = f.read().replace('\n', '')
+        content += f.read().replace('\n', '')
     return content
+
 
 
 # Counts the number of mails in path folder - useful for estimation of priors
@@ -20,6 +22,7 @@ def no_mails(path):
     for filename in glob.glob(os.path.join(path, '*.txt')):
         mails += 1
     return mails
+
 
 
 # Iterates through the training set of e-mails saved as a string
@@ -46,7 +49,9 @@ def normalize_values(dct):
     for key in dct:
         total += dct[key]
     for key in dct:
-        normalized[key] = float(dct[key] / total)
+        value = float(dct[key])
+        norm = value / total
+        normalized[key] = norm
     return normalized
 
 
@@ -58,11 +63,20 @@ In 2017 it was estimated that roughly 56% of e-mails sent are spam.
 Source: https://www.statista.com/statistics/420391/spam-email-traffic-share/
 """
 
-def compute_probability(dct, mail, prior = 0.5):
-    probability = 1 * prior
-    for word in dct.keys():
+def compute_probability(ham_dict,spam_dict, mail, prior = 0.5):
+    h_probability = 1 * prior
+    s_probability = 1 * (1-prior)
+    for word in ham_dict.keys():
         if word in mail.split():
-            probability *= dct[word]
+            h_probability *= ham_dict[word]
+        else:
+            h_probability *= (1 - ham_dict[word])
+    for word in spam_dict.keys():
+        if word in mail.split():
+            s_probability *= spam_dict[word]
+        else:
+            s_probability *= (1 - spam_dict[word])
+    probability = (h_probability) / (h_probability + s_probability)
     return probability
 
 
@@ -79,12 +93,7 @@ def compute_score(dct, mail):
             score -= np.log(dct[word])
     return score
 
-ham_path = 'Data/enron1/ham'
-mails = get_mails(ham_path)
-content = word_dict(mails)
-normalized = normalize_values(content)
-mail = 'meetings just'
-print(mail.split())
-print(normalized.keys())
-print(compute_score(normalized,mail))
+
+
+
 
