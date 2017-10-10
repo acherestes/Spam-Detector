@@ -1,0 +1,22 @@
+from Utils import *
+
+ham_path = 'Data/enron1/ham'
+spam_path = 'Data/enron1/spam'
+
+ham_mails = get_mails(ham_path)
+spam_mails = get_mails(spam_path)
+
+
+ham_content = word_dict(ham_mails)
+ham_normalized = normalize_values(ham_content)
+
+spam_content = word_dict(spam_mails)
+spam_normalized = normalize_values(spam_content)
+
+mail = 'meeting'
+
+print(compute_probability(ham_normalized,spam_normalized,mail))
+
+
+
+
