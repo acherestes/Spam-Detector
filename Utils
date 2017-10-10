@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-# Opens mails in path and returns them as a string
+# Opens mails in path folder and returns them as a string
 
 def get_mails(path):
     for filename in glob.glob(os.path.join(path, '*.txt')):
@@ -13,9 +13,17 @@ def get_mails(path):
     return content
 
 
+# Counts the number of mails in path folder - useful for estimation of priors
 
-# Iterates through the training set and returns a dictionary with each
-# word in the training set and the number of occurrences
+def no_mails(path):
+    mails = 0
+    for filename in glob.glob(os.path.join(path, '*.txt')):
+        mails += 1
+    return mails
+
+
+# Iterates through the training set of e-mails saved as a string
+# and returns a dictionary with each word in the training set and the number of occurrences
 
 def word_dict(content):
     word_count = dict()
@@ -29,7 +37,7 @@ def word_dict(content):
 
 
 
-# Iterates through the word/occurrence dictionary and reassigns a value between 0 and 1
+# Iterates through the word/occurrence dictionary and assigns a value between 0 and 1
 # to each value in the dictionary
 
 def normalize_values(dct):
@@ -42,10 +50,37 @@ def normalize_values(dct):
     return normalized
 
 
-get_mails('Data/enron1/ham')
-a = word_dict(get_mails('Data/enron1/ham'))
-print(a)
-#print(type(a))
-print(normalize_values(a))
+
+"""
+Compute probability of a mail being spam/ham.
+The prior was chosen to be 0.5 in order for the algorithm to not be biased.
+In 2017 it was estimated that roughly 56% of e-mails sent are spam.
+Source: https://www.statista.com/statistics/420391/spam-email-traffic-share/
+"""
+
+def compute_probability(dct, mail, prior = 0.5):
+    probability = 1 * prior
+    for word in dct.keys():
+        if word in mail.split():
+            probability *= dct[word]
+        else:
+            probability *= (1 - dct[word])
+    return probability
 
 
+
+"""Having more words in the vocabulary leads to longer multiplications of probabilities, which
+quickly results in underflow. Because of it, I implemented a scoring method which uses
+sums of logs as opposed to multiplication of probabilities.
+"""
+
+def compute_score(dct, mail):
+    score = 0
+    for word in mail.split():
+        if word in dct:
+            score -= np.log(dct[word])
+        else:
+            score -= (1 - np.log(dct[word]))
+    return score
+
+ham_path = 'Data/enron1/ham'
