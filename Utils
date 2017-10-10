@@ -56,16 +56,30 @@ def normalize_values(dct):
 
 
 
+# This function computes the prior probability of ham/spam based on the dataset.
+# It takes as arguments the folder paths to the ham and spam e-mails.
+
+def compute_prior(ham_path, spam_path):
+    n_ham = float(no_mails(ham_path))
+    n_spam = float(no_mails(spam_path))
+    prior = (n_ham / (n_ham + n_spam))
+    return prior
+
+
+
 """
 Compute probability of a mail being spam/ham.
 The prior was chosen to be 0.5 in order for the algorithm to not be biased.
 In 2017 it was estimated that roughly 56% of e-mails sent are spam.
 Source: https://www.statista.com/statistics/420391/spam-email-traffic-share/
+If you'd like to use different priors, you can either manually change the parameter inside the 
+compute probability function, or set it to be equal to the result of the function compute_prior above.
+The latter will compute priors that are biased in favour of the training data.
 """
 
 def compute_probability(ham_dict,spam_dict, mail, prior = 0.5):
     h_probability = 1 * prior
-    s_probability = 1 * (1-prior)
+    s_probability = 1 * (1 - prior)
     for word in ham_dict.keys():
         if word in mail.split():
             h_probability *= ham_dict[word]
@@ -76,6 +90,9 @@ def compute_probability(ham_dict,spam_dict, mail, prior = 0.5):
             s_probability *= spam_dict[word]
         else:
             s_probability *= (1 - spam_dict[word])
+    if h_probability == 1 or s_probability == 1:
+        print("None of the words in the e-mail were found in the vocabulary")
+        return None
     probability = (h_probability) / (h_probability + s_probability)
     return probability
 
@@ -86,12 +103,26 @@ quickly results in underflow. Because of it, I implemented a scoring method whic
 sums of logs as opposed to multiplication of probabilities.
 """
 
-def compute_score(dct, mail):
-    score = 0
-    for word in mail.split():
-        if word in dct.keys():
-            score -= np.log(dct[word])
-    return score
+def compute_score(ham_dict, spam_dict, mail, prior = 0.5):
+    h_score = 0
+    s_score = 0
+    for word in ham_dict.keys():
+        if word in mail.split():
+            h_score -= np.log(ham_dict[word])
+        else:
+            h_score -= np.log(1 - (ham_dict[word]))
+    for word in spam_dict.keys():
+        if word in mail.split():
+            s_score -= np.log(spam_dict[word])
+        else:
+            s_score -= np.log((1 - spam_dict[word]))
+    if h_score == 0 or s_score == 0:
+        print("None of the words in the e-mail were found in the vocabulary")
+        return None
+    probability = (h_score * prior) / (h_score * prior + s_score * (1 - prior))
+    return probability
+
+
 
 
 
