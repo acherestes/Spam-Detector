@@ -1,0 +1,51 @@
+import os
+import glob
+import numpy as np
+
+
+
+# Opens mails in path and returns them as a string
+
+def get_mails(path):
+    for filename in glob.glob(os.path.join(path, '*.txt')):
+        f = open(filename, 'r')
+        content = f.read().replace('\n', '')
+    return content
+
+
+
+# Iterates through the training set and returns a dictionary with each
+# word in the training set and the number of occurrences
+
+def word_dict(content):
+    word_count = dict()
+    for word in content.split():
+        word = word.lower()
+        if word not in word_count:
+            word_count[word] = 1
+        else:
+            word_count[word] += 1
+    return word_count
+
+
+
+# Iterates through the word/occurrence dictionary and reassigns a value between 0 and 1
+# to each value in the dictionary
+
+def normalize_values(dct):
+    normalized = dict()
+    total = 0
+    for key in dct:
+        total += dct[key]
+    for key in dct:
+        normalized[key] = float(dct[key] / total)
+    return normalized
+
+
+get_mails('Data/enron1/ham')
+a = word_dict(get_mails('Data/enron1/ham'))
+print(a)
+#print(type(a))
+print(normalize_values(a))
+
+
