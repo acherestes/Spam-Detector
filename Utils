@@ -63,8 +63,6 @@ def compute_probability(dct, mail, prior = 0.5):
     for word in dct.keys():
         if word in mail.split():
             probability *= dct[word]
-        else:
-            probability *= (1 - dct[word])
     return probability
 
 
@@ -77,10 +75,16 @@ sums of logs as opposed to multiplication of probabilities.
 def compute_score(dct, mail):
     score = 0
     for word in mail.split():
-        if word in dct:
+        if word in dct.keys():
             score -= np.log(dct[word])
-        else:
-            score -= (1 - np.log(dct[word]))
     return score
 
 ham_path = 'Data/enron1/ham'
+mails = get_mails(ham_path)
+content = word_dict(mails)
+normalized = normalize_values(content)
+mail = 'meetings just'
+print(mail.split())
+print(normalized.keys())
+print(compute_score(normalized,mail))
+
