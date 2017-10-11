@@ -11,11 +11,11 @@ I initially considered implementing the Gaussian NB algorithm through the sklear
 
 # 2. How to set it up
 
-  2.1 Clone the GitHub repository
-  2.2 Download the e-mail data from http://www2.aueb.gr/users/ion/data/enron-spam/. Place it inside a folder named "Data" within the folder with the GitHub repository. After extracting the files enron1 - enron6, you should check to see that each of them has a ham and spam folder within them.
-  2.3 Run Spam_Classifier.py. For each e-mail in the test set, the program prints out the number of correctly classified e-mails, the total number of e-mails observed so far and the total number of e-mails in the folder.
-  2.4 If you'd like the program to run on your own set of e-mails, you first have to save them as .txt files. Then create training and test folders and ham/spam folders for both the training and test sets. Change ham_path and spam_path in Spam_Classifier.py to be the paths to the folders corresponding to your training data, and test_spam and test_ham to be the paths to the folders for your test data.
-  2.5 The file test.py is an example of how Gaussian NB could be implemented using the sklearn library, as well as a few possible score metrics. The file is there as a reference and was not otherwise used for this problem.
+2.1 Clone the GitHub repository
+2.2 Download the e-mail data from http://www2.aueb.gr/users/ion/data/enron-spam/. Place it inside a folder named "Data" within the folder with the GitHub repository. After extracting the files enron1 - enron6, you should check to see that each of them has a ham and spam folder within them.
+2.3 Run Spam_Classifier.py. For each e-mail in the test set, the program prints out the number of correctly classified e-mails, the total number of e-mails observed so far and the total number of e-mails in the folder.
+2.4 If you'd like the program to run on your own set of e-mails, you first have to save them as .txt files. Then create training and test folders and ham/spam folders for both the training and test sets. Change ham_path and spam_path in Spam_Classifier.py to be the paths to the folders corresponding to your training data, and test_spam and test_ham to be the paths to the folders for your test data.
+2.5 The file test.py is an example of how Gaussian NB could be implemented using the sklearn library, as well as a few possible score metrics. The file is there as a reference and was not otherwise used for this problem.
   
 # 3. Results and Discussion
 
