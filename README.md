@@ -31,7 +31,7 @@ As a solution to this, I chose to disregard rare words (words whose number of oc
 
 4.2 The algorithm is currently only able to interpret mails in a .txt format. A lot of e-mails come with a picture as an attachment in which the actual body of the e-mail shows. To this program, this would register as a blank mail. It would be useful to implement a tool that converts the words in an image to .txt files.
 
-4.3 NB famously implies independence between features, which often leads to wrong predictions for other sets of problems, yet works well in practicefor text classification. However, N-Grams takes into account phrases as well as words. For example, finding the words "get", "rich" and "now" in the same e-mail is not necessarily indicative of spam if the e-mail is long enough. However, finding the phrase "Get Rich Now!" does. N-Grams takes this into account and I think it would be a useful tool in boosting the performance of the algorithm.
+4.3 NB famously implies independence between features, which often leads to wrong predictions for other sets of problems, yet works well in practice for text classification. However, N-Grams takes into account phrases as well as words. For example, finding the words "get", "rich" and "now" in the same e-mail is not necessarily indicative of spam if the e-mail is long enough. However, finding the phrase "Get Rich Now!" does. N-Grams takes this into account and I think it would be a useful tool in boosting the performance of the algorithm.
 
 # Sources:
 1. Introduction to Machine Learning: https://www.udacity.com/course/intro-to-machine-learning--ud120, chapter 2, slides 22-43
