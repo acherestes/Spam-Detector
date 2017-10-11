@@ -2,6 +2,8 @@
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import roc_auc_score
 
 train_data = np.array([[0,0], [1,1], [2,4], [-1,-2], [0,2], [3,3]])
 train_label = np.array([1, 0, 0, 1, 0, 1])
@@ -18,7 +20,11 @@ print(prediction)
 # prediction = [1, 0, 1, 1]
 
 accuracy = accuracy_score(test_label, prediction)
+f1 = f1_score(test_label, prediction, average = 'macro')
+auc = roc_auc_score(test_label, prediction)
+
 print(accuracy)
-# accuracy = 0.5
+print(f1)
+print(auc)
 
 
