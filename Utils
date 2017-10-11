@@ -5,6 +5,7 @@ import numpy as np
 
 
 # Opens mails in path folder and returns them as a string
+# The function concatenates all mails in path folder into a string
 
 def get_mails(path):
     content = ''
@@ -25,8 +26,8 @@ def no_mails(path):
 
 
 
-# Iterates through the training set of e-mails saved as a string
-# and returns a dictionary with each word in the training set and the number of occurrences
+# Iterates through the training set and returns a dictionary with
+# each word in the training set and the number of occurrences.
 
 def word_dict(content):
     word_count = dict()
@@ -40,18 +41,25 @@ def word_dict(content):
 
 
 
-# Iterates through the word/occurrence dictionary and assigns a value between 0 and 1
-# to each value in the dictionary
+"""
+Iterates through the word/occurrence dictionary and assigns
+a value between 0 and 1 to each value in the dictionary.
+In order for the program to run faster and ignore rare words, which are
+likely to be the result of typos or punctuation inconsistencies, I chose to only
+include the words that occur at least 10 times in the training set.
+"""
 
 def normalize_values(dct):
     normalized = dict()
     total = 0
     for key in dct:
-        total += dct[key]
+        if dct[key] >= 10:
+            total += dct[key]
     for key in dct:
-        value = float(dct[key])
-        norm = value / total
-        normalized[key] = norm
+        if dct[key] >= 10:
+            value = float(dct[key])
+            norm = value / total
+            normalized[key] = norm
     return normalized
 
 
@@ -73,7 +81,7 @@ The prior was chosen to be 0.5 in order for the algorithm to not be biased.
 In 2017 it was estimated that roughly 56% of e-mails sent are spam.
 Source: https://www.statista.com/statistics/420391/spam-email-traffic-share/
 If you'd like to use different priors, you can either manually change the parameter inside the 
-compute probability function, or set it to be equal to the result of the function compute_prior above.
+compute_probability function, or set it to be equal to the result of the function compute_prior above.
 The latter will compute priors that are biased in favour of the training data.
 """
 
@@ -101,6 +109,7 @@ def compute_probability(ham_dict,spam_dict, mail, prior = 0.5):
 """Having more words in the vocabulary leads to longer multiplications of probabilities, which
 quickly results in underflow. Because of it, I implemented a scoring method which uses
 sums of logs as opposed to multiplication of probabilities.
+For this reason, in testing the algorithm I used the function compute_score as opposed to compute_probability.
 """
 
 def compute_score(ham_dict, spam_dict, mail, prior = 0.5):
@@ -121,6 +130,41 @@ def compute_score(ham_dict, spam_dict, mail, prior = 0.5):
         return None
     probability = (h_score * prior) / (h_score * prior + s_score * (1 - prior))
     return probability
+
+
+
+
+""" This function brings everything together and returns the accuracy of the algorithm.
+The first input is the path to the test folder. The second and third parameters are the outputs of
+the normalize_values function for ham and spam. The var parameter can be set to either 'ham' or 'spam'.
+The 0.5 is the threshold for the algorithm to classify something as spam/ham (i.e. if it is more than 50% sure
+an e-mail is spam, it will classify it as spam)
+"""
+
+def get_results(path, ham_norm, spam_norm, var = ''):
+    misclassified = 0
+    correct = 0
+    no_testdata = no_mails(path)
+    for filename in glob.glob(os.path.join(path, '*.txt')):
+        f = open(filename, 'r')
+        content = f.read().replace('\n','')
+        score = compute_score(ham_norm, spam_norm, content)
+        if var == 'spam':
+            if score > 0.5:
+                misclassified += 1
+            else:
+                correct += 1
+        if var == 'ham':
+            if score < 0.5:
+                misclassified += 1
+            else:
+                correct += 1
+        print(correct, correct + misclassified, "/", no_testdata)
+    accuracy = float(correct / (misclassified + correct))
+    return accuracy
+
+
+
 
 
 
