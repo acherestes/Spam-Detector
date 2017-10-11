@@ -7,3 +7,4 @@ Sources:
 2. Enron Spam/Ham e-mail dataset: http://www2.aueb.gr/users/ion/data/enron-spam/
 3. V. Metsis, I. Androutsopoulos and G. Paliouras, "Spam Filtering with 
 Naive Bayes - Which Naive Bayes?": http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.61.5542&rep=rep1&type=pdf
+4. IOANNIS KANARIS, KONSTANTINOS KANARIS, IOANNIS HOUVARDAS, and EFSTATHIOS STAMATATOS, "WORDS VS. CHARACTER N-GRAMS FOR ANTI-SPAM FILTERING" http://www.icsd.aegean.gr/lecturers/stamatatos/papers/ijait-spam.pdf
