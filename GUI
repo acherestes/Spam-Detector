@@ -1,6 +1,21 @@
 from Tkinter import *
+import tkSimpleDialog
+import tkMessageBox
+from Utils import *
+from Spam_Classifier import *
 
 #Source: https://www.youtube.com/channel/UCvfluOiZ_eyBfzDXNft_7Eg
+
+
+
+def single_mail():
+    mail = tkSimpleDialog.askstring("Single e-mail","Paste the e-mail content in the textbox below")
+    result = classify(mail, ham_normalized, spam_normalized)
+    if result == 'spam':
+        tkMessageBox.showinfo("E-mail classifier", "Your e-mail was classified as SPAM")
+    if result == 'ham':
+        tkMessageBox.showinfo("E-mail classifier", "Your e-mail was classified as HAM")
+
 
 # Create the window
 root = Tk()
@@ -9,11 +24,28 @@ root = Tk()
 root.title("Spam Classifier")
 root.geometry("800x600")
 
+#Create frame
 app = Frame(root)
 app.grid()
-label = Label(app, text = "test")
 
-label.grid()
+#Create label
+label1 = Label(app, text = "Choose ")
+label1.grid()
+
+#Create entry
+entry = Entry()
+
+#Create buttons
+button1 = Button(app, text = "Classify a single e-mail", command = single_mail)
+button1.grid()
+button2 = Button(app, text = "Classify multiple e-mails from a folder")
+button2.grid()
+button3 = Button(app, text = "Personalize classifier")
+button3.grid()
+
+
 
 # Start event loop
 root.mainloop()
+
+
