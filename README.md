@@ -5,9 +5,14 @@ Spam detector using Naive Bayes
 
 I implemented a Naive Bayes classifier for spam/ham recognition (ham = non-spam). One of the strong assumptions of NB is that the features are independent of each other. In other words, the algorithm does not take into account the order of words in the e-mail, and instead just looks for whether the word occurs in the e-mail. However, it does perform well for text recognition tasks even if some of the features are strongly correlated. Moreover, one of the reasons I chose NB for this project was due to the large size of the vocabulary (cca. 100,000 words). Most other algorithms will struggle with sizes this big - decision trees will likely overfit if given 100,000 attributes, while something like KNN will struggle in finding closeness between points in 100,000 dimensions etc. The two other viable options I found are SVMs and N-Grams. I will talk further about N-Grams in section 4.
 
-The data was obtained from the Enron e-mail dataset.
-
+The algorithm computes:
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(spam|mail)&space;=&space;\frac{P(mail|spam)&space;*&space;P(spam)}{P(mail|spam)&space;*&space;P(spam)&space;&plus;&space;P(mail|ham)&space;*&space;P(ham)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(spam|mail)&space;=&space;\frac{P(mail|spam)&space;*&space;P(spam)}{P(mail|spam)&space;*&space;P(spam)&space;&plus;&space;P(mail|ham)&space;*&space;P(ham)}" title="P(spam|mail) = \frac{P(mail|spam) * P(spam)}{P(mail|spam) * P(spam) + P(mail|ham) * P(ham)}" /></a>
+
+Here, P(ham) and P(spam) are the prior probabilities of the e-mail being spam/ham. These can be estimated by either computing the fraction of spam e-mails in the dataset or by using online statistics on the frequency of spam. P(ham) = 1 - P(spam).
+
+P(mail|spam) and P(mail|ham) represent the probability of the occurrence of the words in the e-mail given that the e-mail's true label is ham or spam. E.g. Given that the e-mail body is "Get Rich Now!" and we know that the e-mail is spam, what is the probability for the occurrence for the words "get", "rich" and "now", as well as the probability for all other words to not occur in the e-mail. 
+
+The data was obtained from the Enron e-mail dataset.
 
 I initially considered implementing the Gaussian NB algorithm through the sklearn library. The advantages to that are that the program would run much faster, as well as the fact that it is significantly easier to implement. You can find a sample implementation of GNB using sklearn in the file test.py. I decided to write the algorithm from scratch in order to understand it in more detail. If I would have to impliment a similar algorithm again though, I would probably use the sklearn version because it is a lot more optimal. Regarding the accuracy metrics, reasonable choices are F1 score, area under the curve and accuracy. Given that the classification task is reasonably straight forward and the data was evenly distributed (60% spam, 40% ham), I decided to use a simple accuracy metric because I believe it to be a good representation of the algorithm's performance.
 
