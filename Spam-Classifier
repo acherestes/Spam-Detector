@@ -1,8 +1,8 @@
 from Utils import *
 
 
-ham_path = ['Data/enron1/ham']#,'Data/enron2/ham','Data/enron3/ham','Data/enron4/ham','Data/enron5/ham']
-spam_path = ['Data/enron1/spam']#,'Data/enron2/spam','Data/enron3/spam','Data/enron4/spam','Data/enron5/spam']
+ham_path = ['Data/enron1/ham','Data/enron2/ham','Data/enron3/ham','Data/enron4/ham','Data/enron5/ham']
+spam_path = ['Data/enron1/spam','Data/enron2/spam','Data/enron3/spam','Data/enron4/spam','Data/enron5/spam']
 
 
 test_ham = 'Data/enron6/ham'
@@ -24,8 +24,16 @@ for path in spam_path:
     spam_mails += get_mails(path)
 
 
+
 spam_content = word_dict(spam_mails)
 spam_normalized = normalize_values(spam_content)
+
+
+# Uncomment the line below in order to test the algorithm on multiple e-mails at once
+#get_results(test_ham,ham_normalized,spam_normalized, var = 'ham')
+
+
+
 
 
 
