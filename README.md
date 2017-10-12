@@ -10,7 +10,7 @@ The algorithm computes:
 
 Here, P(ham) and P(spam) are the prior probabilities of the e-mail being spam/ham. These can be estimated by either computing the fraction of spam e-mails in the dataset or by using online statistics on the frequency of spam. P(ham) = 1 - P(spam).
 
-P(mail|spam) and P(mail|ham) represent the probability of the occurrence of the words in the e-mail given that the e-mail's true label is ham or spam. E.g. Given that the e-mail body is "Get Rich Now!" and we know that the e-mail is spam, what is the probability for the occurrence for the words "get", "rich" and "now", as well as the probability for all other words to not occur in the e-mail. 
+P(mail|spam) and P(mail|ham) represent the probability of the occurrence of the words in the e-mail given that the e-mail's true label is ham or spam. E.g. Given that the e-mail body is "Get Rich Now!" and we know that the e-mail is spam, what is the probability for the occurrence for the words "get", "rich" and "now", as well as the probability for all other words in the spam vocabulary to not occur in the e-mail. 
 
 In turn, P(mail|spam) and P(mail|ham) are computed using the following:
 
