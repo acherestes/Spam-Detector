@@ -10,6 +10,7 @@ from Spam_Classifier import *
 
 def single_mail():
     mail = tkSimpleDialog.askstring("Single e-mail","Paste the e-mail content in the textbox below")
+    print(ham_normalized, spam_normalized)
     result = classify(mail, ham_normalized, spam_normalized)
     if result == 'spam':
         tkMessageBox.showinfo("E-mail classifier", "Your e-mail was classified as SPAM")
@@ -22,28 +23,23 @@ root = Tk()
 
 # Modify root window
 root.title("Spam Classifier")
-root.geometry("800x600")
+root.geometry("200x150")
 
 #Create frame
 app = Frame(root)
 app.grid()
 
 #Create label
-label1 = Label(app, text = "Choose ")
+label1 = Label(app, text = "Press the button below")
 label1.grid()
 
 #Create entry
 entry = Entry()
+tkMessageBox.showinfo("Algorithm results", "This program trained on the enron e-mail dataset. It was tested on 4,500 spam e-mails and 1,500 ham e-mails. It achieved a classification accuracy of 75.1% on spam, and 78.6% on ham")
 
 #Create buttons
-button1 = Button(app, text = "Classify a single e-mail", command = single_mail)
+button1 = Button(app, text = "Classify an e-mail", command = single_mail)
 button1.grid()
-button2 = Button(app, text = "Classify multiple e-mails from a folder")
-button2.grid()
-button3 = Button(app, text = "Personalize classifier")
-button3.grid()
-
-
 
 # Start event loop
 root.mainloop()
