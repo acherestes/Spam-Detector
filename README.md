@@ -7,6 +7,8 @@ I implemented a Naive Bayes classifier for spam/ham recognition (ham = non-spam)
 
 The data was obtained from the Enron e-mail dataset.
 
+<a href="https://www.codecogs.com/eqnedit.php?latex=P(spam|mail)&space;=&space;\frac{P(mail|spam)&space;*&space;P(spam)}{P(mail|spam)&space;*&space;P(spam)&space;&plus;&space;P(mail|ham)&space;*&space;P(ham)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(spam|mail)&space;=&space;\frac{P(mail|spam)&space;*&space;P(spam)}{P(mail|spam)&space;*&space;P(spam)&space;&plus;&space;P(mail|ham)&space;*&space;P(ham)}" title="P(spam|mail) = \frac{P(mail|spam) * P(spam)}{P(mail|spam) * P(spam) + P(mail|ham) * P(ham)}" /></a>
+
 I initially considered implementing the Gaussian NB algorithm through the sklearn library. The advantages to that are that the program would run much faster, as well as the fact that it is significantly easier to implement. You can find a sample implementation of GNB using sklearn in the file test.py. I decided to write the algorithm from scratch in order to understand it in more detail. If I would have to impliment a similar algorithm again though, I would probably use the sklearn version because it is a lot more optimal. Regarding the accuracy metrics, reasonable choices are F1 score, area under the curve and accuracy. Given that the classification task is reasonably straight forward and the data was evenly distributed (60% spam, 40% ham), I decided to use a simple accuracy metric because I believe it to be a good representation of the algorithm's performance.
 
 # 2. How to set it up
