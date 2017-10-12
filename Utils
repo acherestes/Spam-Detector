@@ -102,6 +102,7 @@ def compute_probability(ham_dict,spam_dict, mail, prior = 0.5):
         print("None of the words in the e-mail were found in the vocabulary")
         return None
     probability = (h_probability) / (h_probability + s_probability)
+    print(probability)
     return probability
 
 
@@ -128,41 +129,25 @@ def compute_score(ham_dict, spam_dict, mail, prior = 0.5):
     if h_score == 0 or s_score == 0:
         print("None of the words in the e-mail were found in the vocabulary")
         return None
-    probability = (h_score * prior) / (h_score * prior + s_score * (1 - prior))
+    probability = (np.exp(h_score) * prior) / (np.exp(h_score) * prior + np.exp(s_score) * (1 - prior))
     return probability
 
 
 
-
 """ This function brings everything together and returns the accuracy of the algorithm.
-The first input is the path to the test folder. The second and third parameters are the outputs of
-the normalize_values function for ham and spam. The var parameter can be set to either 'ham' or 'spam'.
+The first input is the e-mail saved as a string. The second and third parameters are the outputs of
+the normalize_values function for ham and spam.
 The 0.5 is the threshold for the algorithm to classify something as spam/ham (i.e. if it is more than 50% sure
 an e-mail is spam, it will classify it as spam)
 """
 
-def get_results(path, ham_norm, spam_norm, var = ''):
-    misclassified = 0
-    correct = 0
-    no_testdata = no_mails(path)
-    for filename in glob.glob(os.path.join(path, '*.txt')):
-        f = open(filename, 'r')
-        content = f.read().replace('\n','')
-        score = compute_score(ham_norm, spam_norm, content)
-        if var == 'spam':
-            if score > 0.5:
-                misclassified += 1
-            else:
-                correct += 1
-        if var == 'ham':
-            if score < 0.5:
-                misclassified += 1
-            else:
-                correct += 1
-        print(correct, correct + misclassified, "/", no_testdata)
-    accuracy = float(correct / (misclassified + correct))
-    return accuracy
-
+def classify(mail, ham_norm, spam_norm):
+    content = mail.replace('\n','')
+    score = compute_score(ham_norm, spam_norm, content)
+    if score < 0.5:
+        return "ham"
+    else:
+        return "spam"
 
 
 
