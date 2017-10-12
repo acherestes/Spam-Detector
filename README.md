@@ -16,7 +16,12 @@ In turn, P(mail|spam) and P(mail|ham) are computed using the following:
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(D|C_{i})&space;=&space;\prod_{w_{j}&space;\in&space;D}^{n}&space;P(w_{j}|C_{i})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(D|C_{i})&space;=&space;\prod_{w_{j}&space;\in&space;D}^{n}&space;P(w_{j}|C_{i})" title="P(D|C_{i}) = \prod_{w_{j} \in D}^{n} P(w_{j}|C_{i})" /></a>
 
-Here D stands for the content of the mail, whereas C_{i} represents the classification labels (ham/spam). Then, the product is applied over all tokens w_{j} in D given the classification label C_{i}.
+Here D stands for the content of the mail w.r.t the vocabulary, whereas C_{i} represents the classification labels (ham/spam). Then, the product is applied over all tokens w_{j} in D given the classification label C_{i}. The issue with using this formula is that the number of multiplications of probabilities increases linearly with the size of the vocabulary D. In other words, given the content of the e-mail, for each word in the vocabulary, the algorithm has to compute the probability of each of the words in the e-mail to occur, as well as the probability of all words that do not occur in the e-mail but are in the classification label vocabulary not to occur.
+
+E.g. Suppose the example is, once again, "Get Rich Now !", and the spam vocabulary contains the following words: v = ['money', 'get', 'rich', 'profit', 'fast']. Notice the word "now" is not present in the vocabulary so therefore it will be disregarded. The way the algorithm interprets this classification task is to compute P(0,1,1,0,0|spam), where a 0 on the 1st position indicates that the word does not appear in the e-mail, whereas a 1 indicates that it does.
+
+Multiplying sub-unitary numbers quickly leads to underflow as the size of the vocabulary increases, so instead of using the formula above, I used:
+<a href="https://www.codecogs.com/eqnedit.php?latex=log(P(D|C_{i}))&space;=&space;\sum_{w_{j}&space;\in&space;D}^{n}&space;log(P(w_{j}|C_{i}))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?log(P(D|C_{i}))&space;=&space;\sum_{w_{j}&space;\in&space;D}^{n}&space;log(P(w_{j}|C_{i}))" title="log(P(D|C_{i})) = \sum_{w_{j} \in D}^{n} log(P(w_{j}|C_{i}))" /></a>
 
 The data was obtained from the Enron e-mail dataset.
 
