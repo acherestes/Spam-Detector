@@ -1,0 +1,19 @@
+from Tkinter import *
+
+#Source: https://www.youtube.com/channel/UCvfluOiZ_eyBfzDXNft_7Eg
+
+# Create the window
+root = Tk()
+
+# Modify root window
+root.title("Spam Classifier")
+root.geometry("800x600")
+
+app = Frame(root)
+app.grid()
+label = Label(app, text = "test")
+
+label.grid()
+
+# Start event loop
+root.mainloop()
