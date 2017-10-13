@@ -10,7 +10,6 @@ from Spam_Classifier import *
 
 def single_mail():
     mail = tkSimpleDialog.askstring("Single e-mail","Paste the e-mail content in the textbox below")
-    print(ham_normalized, spam_normalized)
     result = classify(mail, ham_normalized, spam_normalized)
     if result == 'spam':
         tkMessageBox.showinfo("E-mail classifier", "Your e-mail was classified as SPAM")
