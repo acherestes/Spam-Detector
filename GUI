@@ -34,7 +34,7 @@ label1.grid()
 
 #Create entry
 entry = Entry()
-tkMessageBox.showinfo("Algorithm results", "This program trained on the enron e-mail dataset. It was tested on 4,500 spam e-mails and 1,500 ham e-mails. It achieved a classification accuracy of 75.1% on spam, and 78.6% on ham")
+#tkMessageBox.showinfo("Algorithm results", "This program trained on the enron e-mail dataset. It was tested on 4,500 spam e-mails and 1,500 ham e-mails. It achieved a classification accuracy of 75.1% on spam, and 78.6% on ham")
 
 #Create buttons
 button1 = Button(app, text = "Classify an e-mail", command = single_mail)
